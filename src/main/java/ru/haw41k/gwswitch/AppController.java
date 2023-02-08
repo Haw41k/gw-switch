@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.haw41k.gwswitch.config.Config;
+import ru.haw41k.gwswitch.tools.HttpServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +17,9 @@ public class AppController {
     @GetMapping("/")
     public String get(Model model, HttpServletRequest request) {
 
-        model.addAttribute("ip", request.getRemoteAddr());
+        String clientIP = HttpServletRequestUtils.getRealClientIp(request);
+
+        model.addAttribute("ip", clientIP);
         model.addAttribute("gateways", cfg.getRouters().get(0).getGateways());
 
         return "index";

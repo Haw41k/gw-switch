@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.haw41k.gwswitch.config.Config;
 import ru.haw41k.gwswitch.config.model.Gateway;
 import ru.haw41k.gwswitch.tools.GWSwitch;
+import ru.haw41k.gwswitch.tools.HttpServletRequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -26,7 +27,10 @@ public class AppRestController {
 
     @GetMapping("/current")
     public Gateway getGW(HttpServletRequest request) throws MikrotikApiException {
-        String gwId = gwSwitch.getCurrentGw(request.getRemoteAddr());
+
+        String clientIP = HttpServletRequestUtils.getRealClientIp(request);
+
+        String gwId = gwSwitch.getCurrentGw(clientIP);
 
         Gateway gw = new Gateway();
         gw.setId(gwId);
@@ -36,11 +40,17 @@ public class AppRestController {
 
     @PostMapping("/current")
     public void setGW(HttpServletRequest request, @RequestBody Gateway gw) throws MikrotikApiException {
-        gwSwitch.setGW(request.getRemoteAddr(), gw.getId());
+
+        String clientIP = HttpServletRequestUtils.getRealClientIp(request);
+
+        gwSwitch.setGW(clientIP, gw.getId());
     }
 
     @DeleteMapping("/current")
     public void setDefaultGW(HttpServletRequest request) throws MikrotikApiException {
-        gwSwitch.setDefaultGW(request.getRemoteAddr());
+
+        String clientIP = HttpServletRequestUtils.getRealClientIp(request);
+
+        gwSwitch.setDefaultGW(clientIP);
     }
 }
