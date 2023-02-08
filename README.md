@@ -38,6 +38,8 @@ gw-switch:
 server:
   port: [порт]
 ```
+Для работы с reverse proxy требуется передача http заголовка:
+[X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)
 
 ## Рекомендации:
 Для работы с API стоит создать отдельного пользователя и отдельную группу для него, с политиками: `read, write, api`
