@@ -4,10 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.haw41k.gwswitch.config.Config;
 import ru.haw41k.gwswitch.config.model.Router;
-import ru.haw41k.gwswitch.tools.GWSwitch;
-import ru.haw41k.gwswitch.tools.MikrotikRouterConsole;
-import ru.haw41k.gwswitch.tools.RouteRuleGWSwitch;
-import ru.haw41k.gwswitch.tools.RouterConsole;
+import ru.haw41k.gwswitch.tools.*;
 
 @Configuration
 public class AppBeans {
@@ -20,7 +17,13 @@ public class AppBeans {
     }
 
     @Bean
-    public GWSwitch getGWSwitch(RouterConsole console) {
-        return new RouteRuleGWSwitch(console);
+    public GWSwitch getGWSwitch(RouterConsole console, Config cfg) {
+
+        if ("ip-lists".equals(cfg.getMode())) {
+            return new FirewallAddressListsGWSwitch(console, cfg.getRouters().get(0).getGateways());
+
+        } else {
+            return new RouteRuleGWSwitch(console);
+        }
     }
 }

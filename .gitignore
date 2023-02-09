@@ -33,4 +33,3 @@ build/
 .vscode/
 
 /src/test/
-/src/main/java/ru/haw41k/gwswitch/tools/FirewallAddressListsGWSwitch.java

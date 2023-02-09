@@ -10,8 +10,16 @@ import java.util.List;
 @Component
 @ConfigurationProperties("gw-switch")
 public class Config {
-
+    private String mode = "route-tables";
     private List<Router> routers = new ArrayList<>();
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
     public List<Router> getRouters() {
         return routers;
@@ -24,7 +32,8 @@ public class Config {
     @Override
     public String toString() {
         return "Config{" +
-                "routers=" + routers +
+                "mode='" + mode + '\'' +
+                ", routers=" + routers +
                 '}';
     }
 }
