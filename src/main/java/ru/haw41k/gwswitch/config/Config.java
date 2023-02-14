@@ -11,6 +11,8 @@ import java.util.List;
 @ConfigurationProperties("gw-switch")
 public class Config {
     private String mode = "route-tables";
+    private String comment = "gw-switch";
+
     private List<Router> routers = new ArrayList<>();
 
     public String getMode() {
@@ -19,6 +21,14 @@ public class Config {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public List<Router> getRouters() {
@@ -33,6 +43,7 @@ public class Config {
     public String toString() {
         return "Config{" +
                 "mode='" + mode + '\'' +
+                ", comment='" + comment + '\'' +
                 ", routers=" + routers +
                 '}';
     }
