@@ -12,7 +12,7 @@ import java.util.List;
 public class Config {
     private String mode = "route-tables";
     private String comment = "gw-switch";
-
+    private boolean tlsEnabled = false;
     private List<Router> routers = new ArrayList<>();
 
     public String getMode() {
@@ -29,6 +29,14 @@ public class Config {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean isTlsEnabled() {
+        return tlsEnabled;
+    }
+
+    public void setTlsEnabled(boolean tlsEnabled) {
+        this.tlsEnabled = tlsEnabled;
     }
 
     public List<Router> getRouters() {

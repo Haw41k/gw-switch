@@ -15,7 +15,11 @@ public class AppBeans {
     public RouterConsole getRouterConsole(Config cfg) {
 
         Router router = cfg.getRouters().get(0);
-        return new MikrotikRouterConsole(router.getIp(), router.getUser(), router.getPassword());
+        MikrotikRouterConsole console = new MikrotikRouterConsole(router.getIp(), router.getUser(), router.getPassword());
+
+        console.setTlsEnabled(cfg.isTlsEnabled());
+
+        return console;
     }
 
     @Bean
