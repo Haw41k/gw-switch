@@ -1,14 +1,18 @@
 package ru.haw41k.gwswitch.tools;
 
+import ru.haw41k.gwswitch.config.Config;
+
 import java.util.List;
 import java.util.Map;
 
 public class RouteRuleGWSwitch implements GWSwitch {
 
-    RouterConsole console;
+    private final RouterConsole console;
+    private final String comment;
 
-    public RouteRuleGWSwitch(RouterConsole console) {
+    public RouteRuleGWSwitch(RouterConsole console, Config cfg) {
         this.console = console;
+        this.comment = cfg.getComment();
     }
 
     @Override
@@ -50,7 +54,8 @@ public class RouteRuleGWSwitch implements GWSwitch {
 
     private void addRule(String ip, String tableName) {
         String query = String.format(
-                "/routing/rule/add src-address=%s/32 dst-address=0.0.0.0/0 action=lookup table=\"%s\"", ip, tableName);
+                "/routing/rule/add src-address=%s/32 dst-address=0.0.0.0/0 action=lookup table=\"%s\" comment=\"%s\"",
+                ip, tableName, comment);
 
         console.execute(query);
     }

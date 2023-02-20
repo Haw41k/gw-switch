@@ -1,5 +1,6 @@
 package ru.haw41k.gwswitch.tools;
 
+import ru.haw41k.gwswitch.config.Config;
 import ru.haw41k.gwswitch.config.model.Gateway;
 
 import java.util.Collections;
@@ -10,14 +11,15 @@ import java.util.Map;
 public class FirewallAddressListsGWSwitch implements GWSwitch {
     private final RouterConsole console;
     private final List<Gateway> gateways;
-    private final String LIST_FILTER;
+    private final String listFilter;
+    private final String comment;
 
-    public FirewallAddressListsGWSwitch(RouterConsole console, List<Gateway> gateways) {
+    public FirewallAddressListsGWSwitch(RouterConsole console, Config cfg) {
 
         this.console = console;
-        this.gateways = gateways;
-
-        this.LIST_FILTER = buildListFilter(gateways);
+        this.gateways = cfg.getRouters().get(0).getGateways();
+        this.listFilter = buildListFilter(gateways);
+        this.comment = cfg.getComment();
     }
 
     @Override
@@ -51,14 +53,16 @@ public class FirewallAddressListsGWSwitch implements GWSwitch {
             return Collections.emptyList();
         }
 
-        String query = String.format("/ip/firewall/address-list/print where address=%s and (%s)", ip, LIST_FILTER);
+        String query = String.format("/ip/firewall/address-list/print where address=%s and (%s)", ip, listFilter);
 
         return console.execute(query);
     }
 
     private void addIPtoList(String ip, String listName) {
 
-        String query = String.format("/ip/firewall/address-list/add address=%s list=\"%s\"", ip, listName);
+        String query = String.format(
+                "/ip/firewall/address-list/add address=%s list=\"%s\" comment=\"%s\"",
+                ip, listName, comment);
 
         console.execute(query);
     }
